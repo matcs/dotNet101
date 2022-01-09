@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using dotNet101.Data;
+using dotNet101.Service;
+using dotNet101.Service.IService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,6 +40,8 @@ namespace dotNet101
               (options => options.UseSqlServer(Configuration.GetConnectionString("DEV")));
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "dotNet101", Version = "v1"}); });
+
+            services.AddScoped<IStudentService, StudentsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

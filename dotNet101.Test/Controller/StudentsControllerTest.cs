@@ -1,105 +1,61 @@
 ﻿using dotNet101.Model;
 using Xunit;
-using dotNet101.Unit.Test.SharedDatabase;
+using dotNet101.UnitTest.SharedDatabase;
 using dotNet101.Controllers;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using dotNet101.Service.IService;
+using Moq;
+using System.Collections.Generic;
 
-namespace dotNet101.Unit.Test.Controller
+namespace dotNet101.UnitTest.Controller
 {
     [Trait("CATEGORY","Controller Crud")]
-    public class StudentsControllerTest : IClassFixture<SharedDatabaseFixture>
+    public class StudentsControllerTest
     {
-        public StudentsControllerTest(SharedDatabaseFixture fixture) => Fixture = fixture;
-
-        public SharedDatabaseFixture Fixture { get; }
 
         [Fact]
-        public async void GetStudentWithIdEquals1()
+        public async Task Get_StudentbyId()
         {
-            using (var transaction = Fixture.Connection.BeginTransaction())
-            {
-                using (var context = Fixture.CreateContext(transaction))
-                {
-                    var controller = new StudentsController(context);
+            var mockContext = new Mock<IStudentService>();
+            mockContext.Setup(c => c.GetStudentById(It.IsAny<int>()))
+                               .ReturnsAsync(() => new Student() { StudentId = 1, Name = "Itadori", Grade = "A"});
+            
+            var controller = new StudentsController(mockContext.Object);
 
-                    var student = await controller.GetStudent(1).ConfigureAwait(true);
+            var result = await controller.GetStudent(1);
 
-                    Assert.Equal("Itadori", student.Value.Name);
-                }
-            }
+            Assert.Equal("Itadori", result.Value.Name);
+
+            mockContext.Verify(m => m.GetStudentById(1), Times.Once());
         }
 
         [Fact]
-        public async void PostNewStudent()
+        public async Task DetailsShouldReturnNotFoundForMissingStudent()
         {
-            using (var transaction = Fixture.Connection.BeginTransaction())
-            {
-                using (var context = Fixture.CreateContext(transaction))
-                {
-                    var controller = new StudentsController(context);
+            var mockContext = new Mock<IStudentService>();
+            mockContext.Setup(c => c.GetStudentById(It.IsAny<int>()))
+                               .ReturnsAsync(() => null);
+            var controller = new StudentsController(mockContext.Object);
+            int id = -1;
 
-                    var newStudent = await controller.PostStudent(new Student() { Name = "Yuta", Grade = "Special" });
-                }
+            var result = await controller.GetStudent(id);
 
-                using (var context = Fixture.CreateContext(transaction))
-                {
-                    var controller = new StudentsController(context);
-
-                    var students = await controller.GetStudents().ConfigureAwait(false);
-
-                    Assert.Equal(4, students.Value.Count());
-
-                    Assert.Equal("Yuta", students.Value.Last().Name);
-                }
-            }
+            Assert.IsType<NotFoundResult> (result.Result);
         }
 
         [Fact]
-        public async void UpdateStudentGradeToSpecial()
+        public async Task PostNewStudentReturnCreated()
         {
-            using (var transaction = Fixture.Connection.BeginTransaction())
-            {
-                using (var context = Fixture.CreateContext(transaction))
-                {
-                    var controller = new StudentsController(context);
+            var mockContext = new Mock<IStudentService>();
+            mockContext.Setup(c => c.AddStudent(It.IsAny<Student>()))
+                               .ReturnsAsync(new Student() { StudentId = 4, Name = "Yuta", Grade = "Special"});
+            var controller = new StudentsController(mockContext.Object);
 
-                    await controller.PutStudent(1, new Student() { StudentId = 1 ,Name = "Itadori", Grade = "Special" });
-                    
-                }
+            var result = await controller.PostStudent(new Student());
 
-                using (var context = Fixture.CreateContext(transaction))
-                {
-                    var controller = new StudentsController(context);
-
-                    var student = await controller.GetStudent(1).ConfigureAwait(false);
-
-                    Assert.Equal("Special", student.Value.Grade);
-                }
-            }
-        }
-
-        [Fact]
-        public async void DeleteStudent()
-        {
-            using (var transaction = Fixture.Connection.BeginTransaction())
-            {
-                using (var context = Fixture.CreateContext(transaction))
-                {
-                    var controller = new StudentsController(context);
-
-                    await controller.DeleteStudent(1);
-                }
-
-                using (var context = Fixture.CreateContext(transaction))
-                {
-                    var controller = new StudentsController(context);
-
-                    var student = await controller.GetStudent(1);
-
-                    Assert.IsType<NotFoundResult>(student.Result);
-                }
-            }
+            Assert.IsType<CreatedAtActionResult>(result.Result);
         }
 
     }

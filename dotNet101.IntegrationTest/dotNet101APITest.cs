@@ -26,7 +26,7 @@ namespace dotNet101.IntegrationTest
         }
 
         [Fact]
-        public async Task GetAllStudents()
+        public async Task GetAllStudentsThenReturnOkStautus()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "api/Students/");
 
@@ -38,7 +38,7 @@ namespace dotNet101.IntegrationTest
         }
 
         [Fact]
-        public async Task GetStudentById()
+        public async Task GetStudentThenReturnOkStatus()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "api/Students/" + 1);
 
@@ -50,7 +50,7 @@ namespace dotNet101.IntegrationTest
         }
 
         [Fact]
-        public async Task Post_New_Student_And_Delete_After()
+        public async Task PostNewStudentAndDeleteAfter()
         {
 
             var json = JsonConvert.SerializeObject(new Student() { Name = "Satoro Gojo", Grade = "Special" });
@@ -78,7 +78,7 @@ namespace dotNet101.IntegrationTest
 
 
         [Fact]
-        public async Task PutStudent()
+        public async Task PutStudentSuccessfullyThenReturnNoContent()
         {
             var json = JsonConvert.SerializeObject(new Student() { StudentId = 1, Name = "Itadori", Grade = "Special"});
             var content = new StringContent(json, Encoding.UTF8, "application/json");
