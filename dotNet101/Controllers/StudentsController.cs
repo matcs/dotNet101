@@ -73,14 +73,11 @@ namespace dotNet101.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudent(int id)
         {
-            var student = await _service.GetStudentById(id);
+            var student = await _service.DeleteStudent(id);
             if (student == null)
             {
                 return NotFound();
             }
-
-           await _service.DeleteStudent(student.StudentId);
-
             return NoContent();
         }
     }

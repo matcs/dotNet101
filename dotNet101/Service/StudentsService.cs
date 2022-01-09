@@ -66,6 +66,11 @@ namespace dotNet101.Service
         public async Task<object> DeleteStudent(int id)
         {
             var student = await _context.Students.FindAsync(id);
+
+            if(student is null)
+            {
+                return null;
+            }
             
             var deletedStudent = _context.Students.Remove(student);
             await _context.SaveChangesAsync();

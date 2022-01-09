@@ -3,6 +3,7 @@ using dotNet101.Service;
 using Xunit;
 using dotNet101.UnitTest.SharedDatabase;
 using System.Linq;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace dotNet101.UnitTest.Services
 {
@@ -13,7 +14,7 @@ namespace dotNet101.UnitTest.Services
         public SharedDatabaseFixture Fixture { get; }
 
         [Fact]
-        public async void GetStudentById()
+        public async void TestGetStudentByIdReturnsStudent()
         {
             using (var transaction = Fixture.Connection.BeginTransaction())
             {
@@ -29,7 +30,23 @@ namespace dotNet101.UnitTest.Services
         }
 
         [Fact]
-        public async void AddNewStudentThenTheCountTotalOfStudentsShouldBe4()
+        public async void TestGetStudentByIdReturnsNull()
+        {
+            using (var transaction = Fixture.Connection.BeginTransaction())
+            {
+                using (var context = Fixture.CreateContext(transaction))
+                {
+                    var service = new StudentsService(context);
+
+                    var student = await service.GetStudentById(4).ConfigureAwait(true);
+
+                    Assert.Null(student);
+                }
+            }
+        }
+
+        [Fact]
+        public async void TestAddNewStudentThenTheCountTotalOfStudentsShouldBe4()
         {
             using (var transaction = Fixture.Connection.BeginTransaction())
             {
@@ -54,7 +71,7 @@ namespace dotNet101.UnitTest.Services
         }
 
         [Fact]
-        public async void AddNewStudentWithMissingNameShouldNotAdd()
+        public async void TestAddNewStudentWithMissingNameShouldNotAdd()
         {
             using (var transaction = Fixture.Connection.BeginTransaction())
             {
@@ -79,7 +96,22 @@ namespace dotNet101.UnitTest.Services
         }
 
         [Fact]
-        public async void UpdateStudentGradeToSpecial()
+        public async void TestUpdateStudentThenReturnNull()
+        {
+            using (var transaction = Fixture.Connection.BeginTransaction())
+            {
+                using (var context = Fixture.CreateContext(transaction))
+                {
+                    var service = new StudentsService(context);
+                    var student = await service.UpdateStudent(new Student() { StudentId = 5, Name = "Itadori", Grade = "Special" });
+
+                    Assert.Null(student);
+                }
+            }
+        }
+
+        [Fact]
+        public async void TestUpdateStudentGradeToSpecial()
         {
             using (var transaction = Fixture.Connection.BeginTransaction())
             {
@@ -102,7 +134,7 @@ namespace dotNet101.UnitTest.Services
         }
 
         [Fact]
-        public async void DeleteStudent()
+        public async void TestDeleteStudentReturnStudentThenSearchForTheStudentAndReturnNull()
         {
             using (var transaction = Fixture.Connection.BeginTransaction())
             {
@@ -110,7 +142,9 @@ namespace dotNet101.UnitTest.Services
                 {
                     var service = new StudentsService(context);
 
-                    await service.DeleteStudent(1);
+                    var student = await service.DeleteStudent(1);
+
+                    Assert.IsType<EntityEntry<Student>>(student);
                 }
 
                 using (var context = Fixture.CreateContext(transaction))
@@ -123,5 +157,22 @@ namespace dotNet101.UnitTest.Services
                 }
             }
         }
+
+        [Fact]
+        public async void TestDeleteStudentReturnNull()
+        {
+            using (var transaction = Fixture.Connection.BeginTransaction())
+            {
+                using (var context = Fixture.CreateContext(transaction))
+                {
+                    var service = new StudentsService(context);
+
+                    var student = await service.DeleteStudent(5);
+
+                    Assert.Null(student);
+                }
+            }
+        }
+
     }
 }

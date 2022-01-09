@@ -31,7 +31,7 @@ namespace dotNet101.UnitTest.Controller
         }
 
         [Fact]
-        public async Task DetailsShouldReturnNotFoundForMissingStudent()
+        public async Task GetShouldReturnNotFoundForMissingStudent()
         {
             var mockContext = new Mock<IStudentService>();
             mockContext.Setup(c => c.GetStudentById(It.IsAny<int>()))
@@ -71,6 +71,65 @@ namespace dotNet101.UnitTest.Controller
             var result = await controller.PostStudent(new Student());
 
             Assert.IsType<BadRequestResult>(result.Result);
+        }
+
+        [Fact]
+        public async Task PutStudentReturnShouldBeNoContent()
+        {
+            var mockContext = new Mock<IStudentService>();
+            mockContext.Setup(c => c.UpdateStudent(It.IsAny<Student>()))
+                               .ReturnsAsync(new Student() { StudentId = 1, Name = "Itadori", Grade = "Special" });
+
+            var controller = new StudentsController(mockContext.Object);
+
+            var result = await controller.PutStudent(1,new Student() { StudentId = 1, Name = "Itadori", Grade = "Special"});
+
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        [Fact]
+        public async Task PutStudentWithNotEqualIdsReturnShouldBeBadRequest()
+        {
+            var mockContext = new Mock<IStudentService>();
+            mockContext.Setup(c => c.UpdateStudent(It.IsAny<Student>()))
+                               .ReturnsAsync(new Student() { StudentId = 2, Name = "Itadori", Grade = "Special" });
+
+            var controller = new StudentsController(mockContext.Object);
+
+            var result = await controller.PutStudent(2, new Student() { StudentId = 1, Name = "Itadori", Grade = "Special" });
+
+            Assert.IsType<BadRequestResult>(result);
+        }
+
+        [Fact]
+        public async Task DeleteStudenReturnShouldBeNoContent()
+        {
+            var mockContext = new Mock<IStudentService>();
+            mockContext.Setup(c => c.GetStudentById(It.IsAny<int>()))
+                                .ReturnsAsync(new Student() { StudentId = 1, Name = "Itadori", Grade = "B" });
+            mockContext.Setup(c => c.DeleteStudent(It.IsAny<int>()))
+                               .ReturnsAsync(new Student() { StudentId = 1, Name = "Itadori", Grade = "A" });
+
+            var controller = new StudentsController(mockContext.Object);
+
+            var result = await controller.DeleteStudent(1);
+
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        [Fact]
+        public async Task DeleteStudentReturnShouldBeNotFound()
+        {
+            var mockContext = new Mock<IStudentService>();
+            Student student = null;
+            mockContext.Setup(c => c.GetStudentById(It.IsAny<int>()))
+                              .ReturnsAsync(student);
+           
+            var controller = new StudentsController(mockContext.Object);
+
+            var result = await controller.DeleteStudent(5);
+
+            Assert.IsType<NotFoundResult>(result);
         }
 
     }
