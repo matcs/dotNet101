@@ -64,7 +64,8 @@ namespace dotNet101.Controllers
         [HttpPost]
         public async Task<ActionResult<Student>> PostStudent(Student student)
         {
-            if(await _service.AddStudent(student) is null) return BadRequest();
+            if (await _service.AddStudent(student) is null) 
+                return BadRequest();
             return CreatedAtAction("GetStudent", new { id = student.StudentId }, student);
         }
 

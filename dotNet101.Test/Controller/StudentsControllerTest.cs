@@ -14,7 +14,6 @@ namespace dotNet101.UnitTest.Controller
     [Trait("CATEGORY","Controller Crud")]
     public class StudentsControllerTest
     {
-
         [Fact]
         public async Task Get_StudentbyId()
         {
@@ -50,12 +49,27 @@ namespace dotNet101.UnitTest.Controller
         {
             var mockContext = new Mock<IStudentService>();
             mockContext.Setup(c => c.AddStudent(It.IsAny<Student>()))
-                               .ReturnsAsync(new Student() { StudentId = 4, Name = "Yuta", Grade = "Special"});
+                               .ReturnsAsync(new Student() { StudentId = 4, Name = "Name", Grade = "Special"});
             var controller = new StudentsController(mockContext.Object);
 
             var result = await controller.PostStudent(new Student());
 
             Assert.IsType<CreatedAtActionResult>(result.Result);
+        }
+
+
+        [Fact]
+        public async Task PostNewStudentReturnShouldBeBadRequest()
+        {
+            var mockContext = new Mock<IStudentService>();
+            Student student = null;
+            mockContext.Setup(c => c.AddStudent(It.IsAny<Student>()))
+                               .ReturnsAsync(student);
+            var controller = new StudentsController(mockContext.Object);
+
+            var result = await controller.PostStudent(new Student());
+
+            Assert.IsType<BadRequestResult>(result.Result);
         }
 
     }
