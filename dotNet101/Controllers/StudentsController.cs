@@ -34,7 +34,7 @@ namespace dotNet101.Controllers
         {
             var student = await _context.Students.FindAsync(id);
 
-            if (student == null)
+            if (student is null)
             {
                 return NotFound();
             }
