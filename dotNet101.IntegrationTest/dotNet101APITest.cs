@@ -18,6 +18,7 @@ namespace dotNet101.IntegrationTest
     {
         private readonly HttpClient _client;
         private readonly string _url = "api/Students";
+
         public dotNet101APITest()
         {
             var server = new TestServer(new WebHostBuilder()
@@ -28,8 +29,7 @@ namespace dotNet101.IntegrationTest
         [Fact]
         public async Task TestGetAllStudentsAsyncThenReturnOkStatus()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, _url);
-            var response = await _client.SendAsync(request);
+            var response = await _client.GetAsync(_url);
 
             response.EnsureSuccessStatusCode();
 
@@ -39,8 +39,7 @@ namespace dotNet101.IntegrationTest
         [Fact]
         public async Task TestGetStudentAsyncThenReturnOkStatus()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "api/Students/" + 1);
-            var response = await _client.SendAsync(request);
+            var response = await _client.GetAsync(_url + 1);
 
             response.EnsureSuccessStatusCode();
 
@@ -61,12 +60,14 @@ namespace dotNet101.IntegrationTest
             var json = JsonConvert.SerializeObject(new Student() { Name = "Satoro Gojo", Grade = "Special" });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync(_url, content);
+            var jsonFromPostResponse = await response.Content.ReadAsStringAsync();
 
             response.EnsureSuccessStatusCode();
 
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-            await _client.SendAsync(new HttpRequestMessage(HttpMethod.Delete, _url + response.Headers.Location.Segments[3]));
+            var singleResponse = JsonConvert.DeserializeObject<Student>(jsonFromPostResponse);
+            await _client.DeleteAsync($"/{_url}/{singleResponse.StudentId}");
         }
 
         [Fact]
