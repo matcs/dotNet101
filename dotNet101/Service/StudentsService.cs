@@ -1,9 +1,11 @@
 ﻿using dotNet101.Data;
 using dotNet101.Model;
+using dotNet101.Service.IService;
+using System.Threading.Tasks;
 
 namespace dotNet101.Service
 {
-    public class StudentsService
+    public class StudentsService : IStudentService
     {
 
         private readonly ApplicationDbContext _context;
@@ -13,10 +15,12 @@ namespace dotNet101.Service
             _context = context;
         }
 
-        public void Save(Student student)
+        public async Task<Student> AddStudent(Student student)
         {
             _context.Students.Add(student);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+            
+            return student;
         }
     }
 }

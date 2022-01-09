@@ -1,22 +1,16 @@
-﻿using dotNet101.Data;
-using dotNet101.Model;
-using dotNet101.Service;
-using Moq;
-using Microsoft.EntityFrameworkCore;
+﻿using dotNet101.Model;
 using Xunit;
-using dotNet101.Test.SharedDatabase;
+using dotNet101.Unit.Test.SharedDatabase;
 using dotNet101.Controllers;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 
-namespace dotNet101.Test.Controller
+namespace dotNet101.Unit.Test.Controller
 {
     [Trait("CATEGORY","Controller Crud")]
-    public class TestStudentsController : IClassFixture<SharedDatabaseFixture>
+    public class StudentsControllerTest : IClassFixture<SharedDatabaseFixture>
     {
-        public TestStudentsController(SharedDatabaseFixture fixture) => Fixture = fixture;
+        public StudentsControllerTest(SharedDatabaseFixture fixture) => Fixture = fixture;
 
         public SharedDatabaseFixture Fixture { get; }
 

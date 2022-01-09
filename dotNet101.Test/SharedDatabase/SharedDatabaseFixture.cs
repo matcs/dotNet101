@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dotNet101.Test.SharedDatabase
+namespace dotNet101.Unit.Test.SharedDatabase
 {
     public class SharedDatabaseFixture : IDisposable
     {

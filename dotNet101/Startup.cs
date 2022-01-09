@@ -18,9 +18,13 @@ namespace dotNet101
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Configuration = new ConfigurationBuilder()
+            .AddJsonFile("appSettings.json", optional: true, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+            .Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -29,9 +33,9 @@ namespace dotNet101
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();//.AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
+            var configs = Configuration["ConnectionStrings"];
             services.AddDbContext<ApplicationDbContext>
-              (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+              (options => options.UseSqlServer(Configuration.GetConnectionString("DEV")));
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "dotNet101", Version = "v1"}); });
         }
