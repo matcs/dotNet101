@@ -23,6 +23,8 @@ namespace dotNet101.Data
             : base(options)
         { }
 
+        public ApplicationDbContext() : base() { }
+
         public DbSet<Student> Students { get; set; }
     }
 }

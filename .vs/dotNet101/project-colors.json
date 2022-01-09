@@ -1,0 +1,26 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "c1a98150-bae1-4221-a24e-1cc0e2e8c3d3": {
+      "ProjectGuid": "c1a98150-bae1-4221-a24e-1cc0e2e8c3d3",
+      "DisplayName": "dotNet101.UnitTest",
+      "ColorIndex": 0
+    },
+    "d0a9ddec-7da4-409f-898f-58cfd2b472c8": {
+      "ProjectGuid": "d0a9ddec-7da4-409f-898f-58cfd2b472c8",
+      "DisplayName": "dotNet101",
+      "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "68886cb1-cce9-45a3-aee5-9cf22bd25614": {
+      "ProjectGuid": "68886cb1-cce9-45a3-aee5-9cf22bd25614",
+      "DisplayName": "dotNet101.IntegrationTest",
+      "ColorIndex": 2
+    }
+  },
+  "NextColorIndex": 3
+}

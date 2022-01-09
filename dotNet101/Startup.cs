@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using dotNet101.Data;
+using dotNet101.Service;
+using dotNet101.Service.IService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -18,9 +20,13 @@ namespace dotNet101
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Configuration = new ConfigurationBuilder()
+            .AddJsonFile("appSettings.json", optional: true, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+            .Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -29,11 +35,13 @@ namespace dotNet101
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();//.AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
+            var configs = Configuration["ConnectionStrings"];
             services.AddDbContext<ApplicationDbContext>
-              (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+              (options => options.UseSqlServer(Configuration.GetConnectionString("DEV")));
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "dotNet101", Version = "v1"}); });
+
+            services.AddScoped<IStudentService, StudentsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

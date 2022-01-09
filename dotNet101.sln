@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31424.327
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotNet101", "dotNet101\dotNet101.csproj", "{D0A9DDEC-7DA4-409F-898F-58CFD2B472C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotNet101.Test", "dotNet101.Test\dotNet101.Test.csproj", "{C1A98150-BAE1-4221-A24E-1CC0E2E8C3D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotNet101.UnitTest", "dotNet101.Test\dotNet101.UnitTest.csproj", "{C1A98150-BAE1-4221-A24E-1CC0E2E8C3D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotNet101.IntegrationTest", "dotNet101.IntegrationTest\dotNet101.IntegrationTest.csproj", "{68886CB1-CCE9-45A3-AEE5-9CF22BD25614}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C1A98150-BAE1-4221-A24E-1CC0E2E8C3D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1A98150-BAE1-4221-A24E-1CC0E2E8C3D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1A98150-BAE1-4221-A24E-1CC0E2E8C3D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68886CB1-CCE9-45A3-AEE5-9CF22BD25614}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68886CB1-CCE9-45A3-AEE5-9CF22BD25614}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68886CB1-CCE9-45A3-AEE5-9CF22BD25614}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68886CB1-CCE9-45A3-AEE5-9CF22BD25614}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
