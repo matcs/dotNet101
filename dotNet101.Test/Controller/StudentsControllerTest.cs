@@ -15,7 +15,7 @@ namespace dotNet101.UnitTest.Controller
     public class StudentsControllerTest
     {
         [Fact]
-        public async Task Get_StudentbyId()
+        public async Task GetStudentbyId()
         {
             var mockContext = new Mock<IStudentService>();
             mockContext.Setup(c => c.GetStudentById(It.IsAny<int>()))
@@ -65,6 +65,7 @@ namespace dotNet101.UnitTest.Controller
             Student student = null;
             mockContext.Setup(c => c.AddStudent(It.IsAny<Student>()))
                                .ReturnsAsync(student);
+
             var controller = new StudentsController(mockContext.Object);
 
             var result = await controller.PostStudent(new Student());

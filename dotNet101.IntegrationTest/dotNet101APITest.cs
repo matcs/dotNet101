@@ -17,7 +17,7 @@ namespace dotNet101.IntegrationTest
     public class dotNet101APITest
     {
         private readonly HttpClient _client;
-        private readonly string _url = "api/Students/";   
+        private readonly string _url = "api/Students";
         public dotNet101APITest()
         {
             var server = new TestServer(new WebHostBuilder()
@@ -26,9 +26,9 @@ namespace dotNet101.IntegrationTest
         }
 
         [Fact]
-        public async Task GetAllStudentsThenReturnOkStautus()
+        public async Task TestGetAllStudentsAsyncThenReturnOkStatus()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "api/Students/");
+            var request = new HttpRequestMessage(HttpMethod.Get, _url);
 
             var response = await _client.SendAsync(request);
 
@@ -38,7 +38,7 @@ namespace dotNet101.IntegrationTest
         }
 
         [Fact]
-        public async Task GetStudentThenReturnOkStatus()
+        public async Task TestGetStudentAsyncThenReturnOkStatus()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "api/Students/" + 1);
 
@@ -50,51 +50,53 @@ namespace dotNet101.IntegrationTest
         }
 
         [Fact]
-        public async Task PostNewStudentAndDeleteAfter()
+        public async Task TestPostStudentAsync()
         {
 
             var json = JsonConvert.SerializeObject(new Student() { Name = "Satoro Gojo", Grade = "Special" });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var request = new HttpRequestMessage
-            {
-                RequestUri = new Uri(_client.BaseAddress + "api/Students"),
-                Method = HttpMethod.Post,
-                Content = content
-            };
-
-            var response = await _client.SendAsync(request);
+            var response = await _client.PostAsync(_url, content);
 
             response.EnsureSuccessStatusCode();
 
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-            var deleteResponse = await _client.SendAsync(new HttpRequestMessage(HttpMethod.Delete, _url + response.Headers.Location.Segments[3]));
-
-            deleteResponse.EnsureSuccessStatusCode();
-
-            Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
+            await _client.SendAsync(new HttpRequestMessage(HttpMethod.Delete, _url + response.Headers.Location.Segments[3]));
         }
 
 
         [Fact]
-        public async Task PutStudentSuccessfullyThenReturnNoContent()
+        public async Task TestPutStudentAsyncSuccessfullyThenReturnNoContent()
         {
-            var json = JsonConvert.SerializeObject(new Student() { StudentId = 1, Name = "Itadori", Grade = "Special"});
+            Student student = new Student() { StudentId = 1, Name = "Itadori", Grade = "Special" };
+            var json = JsonConvert.SerializeObject(student);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var request = new HttpRequestMessage
-            {
-                RequestUri = new Uri(_client.BaseAddress+"api/Students/1"),
-                Method = HttpMethod.Put,
-                Content = content
-            };
-
-            var response = await _client.SendAsync(request);
+            var response = await _client.PutAsync($"/{_url}/{student.StudentId}", content);
 
             response.EnsureSuccessStatusCode();
 
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        [Fact]
+        public async void TestDeleteStudentAsyncSuccessfullyThenReturnNoContent()
+        {
+            var json = JsonConvert.SerializeObject(new Student() { Name = "Satoro Gojo", Grade = "Special" });
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync(_url, content);
+            var jsonFromPostResponse = await response.Content.ReadAsStringAsync();
+
+
+            response.EnsureSuccessStatusCode();
+
+            var singleResponse = JsonConvert.DeserializeObject<Student>(jsonFromPostResponse);
+            var deleteResponse = await _client.DeleteAsync($"/{_url}/{singleResponse.StudentId}");
+
+            response.EnsureSuccessStatusCode();
+
+            Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
+
+            deleteResponse.EnsureSuccessStatusCode();
         }
     }
 }
