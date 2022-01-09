@@ -20,7 +20,7 @@ namespace dotNet101.UnitTest.SharedDatabase
         public SharedDatabaseFixture()
         {
             Connection = 
-                new SqlConnection("Server=.\\SQLExpress ;Password=test123; User ID=sa;Initial Catalog=StudentsDotNet101_TestDB;Data Source=DDEV-MATHEUSS; Integrated Security=SSPI;");
+                new SqlConnection("Server=.\\SQLExpress ;Password=test123; User ID=sa;Initial Catalog=StudentsDotNet101_UnitTestDB;Data Source=DDEV-MATHEUSS; Integrated Security=SSPI;");
 
             Seed();
 
@@ -55,7 +55,7 @@ namespace dotNet101.UnitTest.SharedDatabase
 
                         var one = new Student() { Name = "Itadori", Grade = "A" };
 
-                        var two = new Student() { Name = "Nobara", Grade = "A" };
+                        var two = new Student() { Name = "Nobara", Grade = "B" };
 
                         var three = new Student() { Name = "Megumi", Grade = "A" };
                        
