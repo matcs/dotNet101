@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using dotNet101.Data;
 using dotNet101.Model;
 using dotNet101.Service.IService;
-using dotNet101.Service;
+using Microsoft.AspNetCore.Mvc;
 
 namespace dotNet101.Controllers
 {

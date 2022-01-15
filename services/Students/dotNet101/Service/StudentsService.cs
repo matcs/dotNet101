@@ -1,10 +1,10 @@
-﻿using dotNet101.Data;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using dotNet101.Data;
 using dotNet101.Model;
 using dotNet101.Service.IService;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace dotNet101.Service
 {

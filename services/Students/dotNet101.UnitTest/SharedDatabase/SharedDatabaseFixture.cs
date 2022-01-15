@@ -1,14 +1,9 @@
-﻿using dotNet101.Data;
-using dotNet101.Model;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.Common;
+using dotNet101.Data;
+using dotNet101.Model;
 using Microsoft.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace dotNet101.UnitTest.SharedDatabase
 {

@@ -1,19 +1,12 @@
-﻿using dotNet101.Data;
-using dotNet101.IntegrationTest.Attributes;
-using dotNet101.Model;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using dotNet101.Data;
+using dotNet101.Model;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace dotNet101.IntegrationTest

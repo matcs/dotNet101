@@ -1,13 +1,10 @@
-﻿using dotNet101.Model;
-using Xunit;
-using dotNet101.UnitTest.SharedDatabase;
+﻿using System.Threading.Tasks;
 using dotNet101.Controllers;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using dotNet101.Model;
 using dotNet101.Service.IService;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System.Collections.Generic;
+using Xunit;
 
 namespace dotNet101.UnitTest.Controller
 {

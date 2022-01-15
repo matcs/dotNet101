@@ -1,9 +1,9 @@
-﻿using dotNet101.Model;
+﻿using System.Linq;
+using dotNet101.Model;
 using dotNet101.Service;
-using Xunit;
 using dotNet101.UnitTest.SharedDatabase;
-using System.Linq;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Xunit;
 
 namespace dotNet101.UnitTest.Services
 {

@@ -1,6 +1,6 @@
-﻿using dotNet101.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using dotNet101.Model;
 
 namespace dotNet101.Service.IService
 {
