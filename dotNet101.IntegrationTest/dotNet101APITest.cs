@@ -95,7 +95,6 @@ namespace dotNet101.IntegrationTest
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
-
         [Fact]
         public async Task TestPutStudentAsyncSuccessfullyThenReturnNoContent()
         {
