@@ -20,7 +20,12 @@
       "ProjectGuid": "68886cb1-cce9-45a3-aee5-9cf22bd25614",
       "DisplayName": "dotNet101.IntegrationTest",
       "ColorIndex": 2
+    },
+    "8acdec00-2112-4d61-a299-e11979172964": {
+      "ProjectGuid": "8acdec00-2112-4d61-a299-e11979172964",
+      "DisplayName": "dotNet101",
+      "ColorIndex": 3
     }
   },
-  "NextColorIndex": 3
+  "NextColorIndex": 4
 }
